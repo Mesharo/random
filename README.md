@@ -7,6 +7,7 @@ Zadání: Budu implementovat hru Snake v prostředí pygame. Hra bude pro max. 3
         Vyhrává ten hráč, který bude mít po ukončení hry nejdelšího hada.
 
 
-Dokumentace:    1. Uživatelská dokumentace
+Dokumentace:    
+                1. Uživatelská dokumentace
 
                 2. Programátorská dokumentace
