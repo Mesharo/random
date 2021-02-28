@@ -1,0 +1,31 @@
+Uživatelská dokumentace	
+
+Hra Snake implementovaná v Pythonu.
+Čtenář nepotřebuje mít žádné předchozí znalosti z programování ani žádné speciální obecné znalosti.
+
+
+Pravidla hry:
+	Hra je maximálně pro 3 hráče.
+	Každý hráč ovládá jednoho hada. Had má na začátku délku jedno pole a ovládá se 4 rozdílnými klávesami.
+	V hracím poli se náhodně objevují jablka a jed. Pokud had sní jablko, naroste o jedno políčko. Pokud had sní jed, umírá.
+	Dále umírá, pokud had narazí do stěn pole nebo narazí do jiného hada.
+	Hra končí, když umřou všichni hadi v poli, vyhrává ten, kdo ovládal nejdelšího hada.
+
+
+
+Používání programu
+
+Program otevřete ve vhodném editoru - například VSCode nebo Visual Studio, můžete jej otevřít klidně i jen tak.
+Program spustíte, např. ve VSCode klávesou F5 a zvolíte si vhodný debug - pro Python file.
+
+Program se Vás zeptá, kolik hráčů má v plánu tuto hru hrát. Na Vás je napsat číslo od 1 do 3 a potvrdit klávesou enter.
+Poté, co si zvolíte, se Vám otevře nové okno a jste uvedeni přímo do hry.
+Pokud hrajete pouze sami, pak má Váš had červenou barvu a ovládá se šipkami.
+Pokud hrajete ve dvou, pak hráč 1 má hada červené barvy s ovládacími klávesami šipkami, druhý hráč má hada zelené barvy s ovládacími klávesami WSAD.
+Pokud hrajete ve třech, pak třetí hráč má hada modré barvy s ovládacími klávesami IKJL.
+
+Hra končí, pokud umřou všichni hráči v poli. Hru můžete kdykoliv ukončit křížkem v pravém horním rohu.
+
+Aby se had otočil a změnil tím směr, stačí nám ovládací klávesu zmáčknout pouze jednou a had si tento nově zvolený směr udržuje, pokud budete opakovaně mačkat tlačítko i přes to, že to očividně funguje, nebude poté ovládání přesné!
+
+Přeji hodně štěstí a zábavy!

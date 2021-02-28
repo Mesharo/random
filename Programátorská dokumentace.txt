@@ -1,0 +1,59 @@
+Programátorská dokumentace
+
+Cílem tohoto projektu bylo vytvořit funkční verzi hry Snake implementovanou v Pythonu v pygame.
+
+Program
+
+Program jako takový jsem se rozhodl nerozdělovat do několika souborů, mně samotnému se lépe pracuje, když mám všechny věci pohromadě a nemusím neustále překlikávat,
+také v programu nejsou žádné speciální datové struktury, které by bylo potřeba mít zvlášť v jiném souboru na lepší upravování.
+
+Program je rozdělený do 2 větších částí.
+
+
+První část obsahuje celkem 5 tříd, 3 reprezentující jednotlivé hady, 1 reprezentující jablka v poli a 1 reprezentující jed v poli.
+Každý typ má v sobě zabudované unikátní funkce, ale s mnoha daty potřebujeme pracovat napříč těmito typy.
+K datům, které jsou sice součástí jedné z těchto tříd, ale pracuje se s nimi ve více z nich jsem přiřadil navíc seznam nebo proměnné mimo třídy.
+
+Jako první bych se podíval na funkce stojící mimo třídy. 
+Patří k nim hned v úvodu create_board, která nám vygenerovanou stránku v pygame rozdělí na pravidelné čtverce s délkou strany 40px.
+Dále jsou to funkce controls_player1 až 3(), které každému hráči přiřazují ovládací klávesy. Ty fungují na principu fronty, kdy stiskem klávesy se do fronty uloží senzor ve formě slova indikující směr,
+na který pak reaguje vnitřní funkce movement() uvnitř třídy hada. 
+Pohyb a jeho změny se v mojí verzi hry Snake uskutečňují pouze na tzv. hlavě hada, což je první políčko hada. Pohyb jsem vyřešil tak,
+že postupně s každým framem program přidává nebo odebírá na souřadnicích, kde by se měla hlava zobrazit - pohyb je silně vázaný na fps. Experimentováním jsem nakonec zvolil kombinaci změny o 40px při 
+fps(5). S tak malým fps se však pojil problém, kdy had se dokázal sám zabít, neboť pokud uživatel v rychlém sledu kliknul tak, aby se had otočit o 180 stupňů, had mohl stihnout vykonat oba pohyby v jednom snímku,
+což vedlo na otočení na stejném řádku a usmrcení. Proto jsem se rozhodl zavést právě zmíněné ukazatele a nejlehčí a nejrychlejší způsob k tomu byla fronta, kdy se každým snímkem bere jeden prvek z ní a v závislosti na něm 
+se mění souřadnice.
+
+Dále bych se podíval na jednotlivé třídy.
+Jablko v poli reprezentuje předem nakreslený 40px x 40px obrázek, takže se samotným vykreslením jablka do pole a jeho následnou manipulací nebyl nejmenší problém. Jablko si pamatuje status, jestli se právě zobrazuje, nebo ho právě snědl had.
+K tomu se i váže pomocná proměnná a, na kterou jablko reaguje negací právě tohoto statusu. Pokud bylo jablko snědeno, vygenerují se náhodné souřadnice, které se porovnají se souřadnicemi jedu a hadů v poli. Pokud na těchto souřadnicích nic není,
+pak právě tam vygenerujeme nové jablko a uložíme si jeho pozici v poli. Velmi obdobným způsobem je řešen i jed v poli.
+Mají však jednu rozdílnou a důležitou vlastnost, jablko v poli může být pouze jedno a nové se vygeneruje až poté, co bude předchozí snědeno. Jedu může být v poli nekonečně mnoho a jed se generuje v závislosti na uplynulém čase. K tomu nám slouží 
+pomocná proměnná i.
+
+Posledním typem tříd v mém programu jsou třídy jednotlivých hadů. Všechny jsou v podstatě identické. Třída hada obsahuje informace o hlavičce hada, jejíž algoritmus pohybu jsem již uváděl výše.
+Dále obsahuje pomocnou hlavu, která se využívá jen k rozeznání, zda se had nachází právě na jedu nebo na jablku. Jablko a jed jsou totiž reprezentovány obrázky viz. výše, které jsem zacentroval, takže se s normálními souřadnicemi hlavy mírně lišily.
+Ke každé třídě se vážou také pomocné proměnné mimo třídu, konkrétně seznam, který si pamatuje dráhu hlavy hada od začátku hry až po současný stav, a dále seznam s aktuálními souřadnicemi celého hada. Samotné nakreslení hada je vlastně vybarvení určité části souřadnic dráhy v závislosti na počtu snězených jablek (díky funkci eat_apple), což je také pomocná proměnná score, 
+která nám mimo jiné po ukončení hry řekne, který hráč vyhrál. Druhý uvedený seznam využíváme poté ve funkcích collision_border() a collision_with_players(), kdy právě porovnáváme, jesti se hlava hada nachází vícekrát v tomto vlastním seznamu - tzn. jednou "správná hlava" a podruhé hlava uvnitř těla - had narazil do sebe, 
+nebo jestli hlava hada je v nějakém identickém seznamu jiného z těchto hadů - tzn. had narazil do jiného hada.
+Poslední funkcí hada je funkce eat_poison, která nedělá nic jiného, než že zabije hada a odstraní jed ze seznamu souřadnic jedů v poli.
+
+
+Druhou částí programu uvažujme syrová data, která se nacházejí cca. v programu od 430. řádku. Program interaguje s uživatelem a následně se rozhodne dle příchozí odpovědi na spuštění správné verze hry.
+Každý tato verze nejprve inicializuje spuštění a vytvoření samotného okna hry, dále fps, aplikace tříd jablka a jedu a dále deklarováním počátečních souřadnic jednotlivých hadů a jejich úvodních směrů. Rozhodl jsem se pro fixní a ne náhodné, neboť jsem chtěl, aby měl každý z hráčů na začátku hry co největší šanci na výhru - tj. všichni začínají v různých stranách a směřují do středu.
+Dále se inicializuje samotné ovládání, hadi a program běží, dokud všichni hadi postupně neumřou. Poté až umřou, vykreslí se nová obrazovka s ohňostrojem a výčtem skóre jednotlivých hadů. Program je na konci.
+
+
+
+Alternativní programová řešení
+Velkým otazníkem je výše do detailu popsaný pohyb. Mně osobně se tento pohyb velmi líbí, přijde mi to více "old school" a jsem na něj více zvyklý, když se řekne Snake. Na druhou stranu je to více kódu, který by se dal jednoduše vyřešit vektorově, a také to na některé uživatele může působit zasekaně, ne tak plynule, dlouhodobým hraním by to mohlo být i nepříjemné vůči očím.
+I přes to si však stojím za svým řešením, víc se k němu dokážu vžít a přijde mi, že díky této realizaci má uživatel lepší schopnost manipulace a taktiky.
+Dále by mohl být problém větší množství pomocných proměnných a seznamů. Věřím, že zkušenější programátoři by jistě přišli s lepším řešením - např. díky self.alive = .. by se mohlo ušetřit použití alespoň 2 proměnných a byl by kód více ucelenější a přehlednější.
+Tyto výše uvedené jsou pro mě minoritní věci, co však mě mrzí je to, že jsem nedokázal přijít na efektivní způsob, jak předejít tomu, aby se jed nebo nenarodil přímo před hlavou hada. Šance, že se tak stane, je velmi malá, a ve většině případech dokáže uživatel včas zareagovat, ale pořád tam ta šance je a nepřišel jsem na vhodný způsob, jak ji eliminovat.
+
+
+Mé osobní postavení k tomuto tématu
+Jelikož jsem si téma sám vybral a jsem nadšencem her zaměřených na rychlé uvažování a pohotové reakce, velmi jsem si toto téma oblíbil. Programování samotné spolu s vymýšlením efektivních algoritmů mě bavilo a přijde mi, že jsem se i možná zlepšil (pořád je tam ale kopírování atd. atd.).
+Pracoval jsem na programu ve dvou etapách, kdy jsem si tu jednodušší část - tvorbu pole, vložení obrázků, reprezentaci tříd - udělal dopředu před zkouškama ke konci semestru, a tu těžší, ale méně obsáhlou část po těchto zkouškách. Bohužel jsem to ale správně nevypočítal, a momentálně finišuju projekt v 7 ráno po dvanácti hodinách práce. Doufám, že se to aspoň bude dát číst, i když jsem si na tom dal záležet.
+Doufám, že toto může být někomu přínosné a doufám, že jste si moji verzi hry užili!
+
