@@ -8,4 +8,5 @@ Zadání: Budu implementovat hru Snake v prostředí pygame. Hra bude pro max. 3
 
 
 Dokumentace:    1. Uživatelská dokumentace
+
                 2. Programátorská dokumentace
