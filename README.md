@@ -5,6 +5,7 @@ Zadání: Budu implementovat hru Snake v prostředí pygame. Hra bude pro max. 3
         V hracím poli se bude náhodně objevovat jídlo a jed. Pokud had sní jed, had umírá. Pokud had sní jídlo, naroste o jedno políčko. Pokud had narazí do stěny,               umírá. Pokud had narazí sám do svého těla, nebo do těla protihráčova hada, umírá.
         Hra končí, když umřou všichni hadi v poli.
         Vyhrává ten hráč, který bude mít po ukončení hry nejdelšího hada.
-        
-        
-        
+
+
+Dokumentace:    1. Uživatelská dokumentace
+                2. Programátorská dokumentace
